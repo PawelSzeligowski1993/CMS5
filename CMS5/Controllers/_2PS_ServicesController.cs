@@ -5,8 +5,8 @@ using WebApplication1.Models.DTO;
 
 namespace CMS_Projekt_API.Controllers
 {
-    //------------------------------------------- GET ------------------------------------------------
-    //-------------------Get all-------------------
+    
+ 
     [Route("api/[controller]")]
     [ApiController]
     public class _2PS_ServicesController : ControllerBase
@@ -17,24 +17,24 @@ namespace CMS_Projekt_API.Controllers
             _configuration = configuration;
         }
 
-        //------------------------------------------- GET by name hero_banners ------------------------------------------------
-        //-------------------Get all hero_banners -------------------
+        //------------------------------------------- GET ------------------------------------------------
+        //-------------------Get all services -------------------
         [HttpGet]
-        public JsonResult Get_Hero_Banners()
+        public JsonResult Get_All_Services()
         {
-            //string name = "hero_banners";
+            
 
             string query = @"
                 select 
-                        hb.id as ""hb.id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        user_name as ""user_name"",  
-                        text as ""text""
-                        services_list_id 
-                 from hero_banners as hb
+                        serv.id as ""serv.id"",
+                        serv.section_name as ""serv.section_name"",
+                        serv.section_type as ""serv.section_type"",
+                        serv.layout_position as ""serv.layout_position"",
+                        serv.last_mod_date as ""serv.last_mod_date"",
+                        serv.user_name as ""serv.user_name"",  
+                        serv.text as ""serv.text"",
+                        serv.services_list_id as ""serv.services_list_id""
+                 from services as serv
             ";
 
             DataTable table = new DataTable();
@@ -58,23 +58,23 @@ namespace CMS_Projekt_API.Controllers
         }
 
 
-        //------------------- Get hero_banners by title -------------------
+        //------------------- Get services by title -------------------
 
         [HttpGet("{section_name}")]
-        public JsonResult GetHero_BannersByTitle(string section_name)
+        public JsonResult GetServicesByTitle(string section_name)
         {
-            //string name = "hero_banners";
+            
             string query = @"
-                select id as ""id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        user_name as ""user_name"" 
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        background_image as ""background_image"",  
-                from hero_banners
+                select 
+                        serv.id as ""serv.id"",
+                        serv.section_name as ""serv.section_name"",
+                        serv.section_type as ""serv.section_type"",
+                        serv.layout_position as ""serv.layout_position"",
+                        serv.last_mod_date as ""serv.last_mod_date"",
+                        serv.user_name as ""serv.user_name"",  
+                        serv.text as ""serv.text"",
+                        serv.services_list_id as ""serv.services_list_id""
+                 from services as serv
                 where (section_name=@section_name)
             ";
 
@@ -100,16 +100,16 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
-        ////------------------------------------------- POST by name hero_banners ------------------------------------------------
+        ////------------------------------------------- POST by name services ------------------------------------------------
         [HttpPost]
-        public JsonResult hero_banners(DB1_HeroBannerDTO hero_banners)
+        public JsonResult PostServices(DB2_ServicesDTO services)
         {
             int id = 0;
             string query = @"
-                insert into hero_banners
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text,background_image)
+                insert into services
+                (id,section_name,section_type,layout_position,last_mod_date,user_name,text,services_list_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@background_image)
+                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@services_list_id)
             ";
 
             DataTable table = new DataTable();
@@ -120,15 +120,15 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", hero_banners.id);
-                    myCommand.Parameters.AddWithValue("@section_name", hero_banners.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", hero_banners.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", hero_banners.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", hero_banners.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@user_name", hero_banners.user_name);
-                    myCommand.Parameters.AddWithValue("@text", hero_banners.text);
-                    myCommand.Parameters.AddWithValue("@additional_text", hero_banners.additional_text);
-                    myCommand.Parameters.AddWithValue("@background_image", hero_banners.background_image);
+                    myCommand.Parameters.AddWithValue("@id", services.id);
+                    myCommand.Parameters.AddWithValue("@section_name", services.section_name);
+                    myCommand.Parameters.AddWithValue("@section_type", services.section_type);
+                    myCommand.Parameters.AddWithValue("@layout_position", services.layout_position);
+                    myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
+                    myCommand.Parameters.AddWithValue("@user_name", services.user_name);
+                    myCommand.Parameters.AddWithValue("@text", services.text);
+                    myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
+
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -139,17 +139,17 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("New hero_banners Added Successfully");
+            return new JsonResult("New services Added Successfully");
         }
 
 
-        ////------------------------------------------- PUT (update) IN hero_banners ------------------------------------------------
+        ////------------------------------------------- PUT (update) IN services ------------------------------------------------
 
         [HttpPut]
-        public JsonResult PutInHero_Banners(DB1_HeroBannerDTO hero_banners)
+        public JsonResult PutInServices(DB2_ServicesDTO services)
         {
             string query = @"
-                update hero_banners
+                update services
                 set id = @id,
                 section_name = @section_name,
                 section_type = @section_type,
@@ -157,8 +157,7 @@ namespace CMS_Projekt_API.Controllers
                 last_mod_date = @last_mod_date,
                 user_name = @user_name
                 text = @text,
-                additional_text = @additional_text,
-                background_image = @background_image,
+                services_list = @services_list
                 where (id = @id) 
             ";
 
@@ -170,15 +169,14 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", hero_banners.id);
-                    myCommand.Parameters.AddWithValue("@section_name", hero_banners.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", hero_banners.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", hero_banners.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", hero_banners.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@user_name", hero_banners.user_name);
-                    myCommand.Parameters.AddWithValue("@text", hero_banners.text);
-                    myCommand.Parameters.AddWithValue("@additional_text", hero_banners.additional_text);
-                    myCommand.Parameters.AddWithValue("@background_image", hero_banners.background_image);
+                    myCommand.Parameters.AddWithValue("@id", services.id);
+                    myCommand.Parameters.AddWithValue("@section_name", services.section_name);
+                    myCommand.Parameters.AddWithValue("@section_type", services.section_type);
+                    myCommand.Parameters.AddWithValue("@layout_position", services.layout_position);
+                    myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
+                    myCommand.Parameters.AddWithValue("@user_name", services.user_name);
+                    myCommand.Parameters.AddWithValue("@text", services.text);
+                    myCommand.Parameters.AddWithValue("@additional_text", services.services_list);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -188,16 +186,16 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("Hero_banners Updated Successfully");
+            return new JsonResult("services Updated Successfully");
         }
 
 
-        ////---------------------------------------------- Delete by Id and name(Baner) ----------------------------------------------
+        ////---------------------------------------------- Delete Services by Id ----------------------------------------------
         [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        public JsonResult DeleteServices(int id)
         {
             string query = @"
-                delete from hero_banners
+                delete from services
                 where (id=@id );
             ";
 
@@ -218,7 +216,7 @@ namespace CMS_Projekt_API.Controllers
 
                 }
             }
-            return new JsonResult("Hero_banners Deleted Successfully");
+            return new JsonResult("services Deleted Successfully");
         }
 
 

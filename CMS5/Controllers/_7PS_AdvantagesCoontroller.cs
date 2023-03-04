@@ -20,15 +20,22 @@ namespace CMS_Projekt_API.Controllers
         }
 
         //------------------------------------------- GET ------------------------------------------------
-        //------------------- Get all -------------------
+        //-------------------Get all advantages -------------------
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult Get_All_Advantages()
         {
+
+
             string query = @"
-                select id as ""id"",
-                        name as ""name"",
-                        text as ""text""
-                from advantages
+                select 
+                        a.id as ""a.id"",
+                        a.section_name as ""a.section_name"",
+                        a.section_type as ""a.section_type"",
+                        a.layout_position as ""a.layout_position"",
+                        a.last_mod_date as ""a.last_mod_date"",
+                        a.user_name as ""a.user_name"",  
+                        a.advantages_list as ""a.advantages_list""
+                 from advantages as a
             ";
 
             DataTable table = new DataTable();
@@ -51,17 +58,24 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
-        //------------------- Get by name -------------------
 
-        [HttpGet("{name}")]
-        public JsonResult GeteByname1(string name)
+        //------------------- Get advantages by title -------------------
+
+        [HttpGet("{section_name}")]
+        public JsonResult GetAdvantagesByTitle(string section_name)
         {
+
             string query = @"
-                  select id as ""id"",
-                        name as ""name"",
-                        text as ""text""
-                from advantages
-                where name=@name 
+                select 
+                        a.id as ""a.id"",
+                        a.section_name as ""a.section_name"",
+                        a.section_type as ""a.section_type"",
+                        a.layout_position as ""a.layout_position"",
+                        a.last_mod_date as ""a.last_mod_date"",
+                        a.user_name as ""a.user_name"",  
+                        a.advantages_list as ""a.advantages_list""
+                 from advantages as a
+                where (section_name=@section_name)
             ";
 
             DataTable table = new DataTable();
@@ -72,7 +86,8 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@name", name);
+
+                    myCommand.Parameters.AddWithValue("@section_name", section_name);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -85,15 +100,16 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
-        //------------------------------------------- POST ------------------------------------------------
+        ////------------------------------------------- POST by name advantages ------------------------------------------------
         [HttpPost]
-        public JsonResult Post(DB7_AdvantagesDTO adv)
+        public JsonResult PostAdvantages(DB7_AdvantagesDTO advantages)
         {
             int id = 0;
-
             string query = @"
-                insert into advantages(id,name,text)
-                values (@id,@name,@text)
+                insert into testimonials
+                (id,section_name,section_type,layout_position,last_mod_date,user_name,advantages_list)
+                values 
+                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@advantages_list)
             ";
 
             DataTable table = new DataTable();
@@ -104,9 +120,13 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", adv.id);
-                    //myCommand.Parameters.AddWithValue("@name", adv.name);
-                    //myCommand.Parameters.AddWithValue("@text", adv.text);
+                    myCommand.Parameters.AddWithValue("@id", advantages.id);
+                    myCommand.Parameters.AddWithValue("@section_name", advantages.section_name);
+                    myCommand.Parameters.AddWithValue("@section_type", advantages.section_type);
+                    myCommand.Parameters.AddWithValue("@layout_position", advantages.layout_position);
+                    myCommand.Parameters.AddWithValue("@last_mod_date", advantages.last_mod_date);
+                    myCommand.Parameters.AddWithValue("@user_name", advantages.user_name);
+                    myCommand.Parameters.AddWithValue("@advantages_list", advantages.advantages_list);
 
 
                     myReader = myCommand.ExecuteReader();
@@ -118,19 +138,25 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("Added Successfully");
+            return new JsonResult("New advantages Added Successfully");
         }
 
 
-        //------------------------------------------- PUT (update) ------------------------------------------------
+        ////------------------------------------------- PUT (update) IN advantages ------------------------------------------------
+
         [HttpPut]
-        public JsonResult Put(DB7_AdvantagesDTO adv)
+        public JsonResult PutInAdvantages(DB7_AdvantagesDTO advantages)
         {
             string query = @"
                 update advantages
-                set name = @name,
-                text = @text
-                where id = @id 
+                set id = @id,
+                section_name = @section_name,
+                section_type = @section_type,
+                layout_position = @layout_position,
+                last_mod_date = @last_mod_date,
+                user_name = @user_name
+                advantages_list = @advantages_list
+                where (id = @id) 
             ";
 
             DataTable table = new DataTable();
@@ -141,9 +167,13 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", adv.id);
-                    //myCommand.Parameters.AddWithValue("@name", adv.name);
-                    //myCommand.Parameters.AddWithValue("@text", adv.text);
+                    myCommand.Parameters.AddWithValue("@id", advantages.id);
+                    myCommand.Parameters.AddWithValue("@section_name", advantages.section_name);
+                    myCommand.Parameters.AddWithValue("@section_type", advantages.section_type);
+                    myCommand.Parameters.AddWithValue("@layout_position", advantages.layout_position);
+                    myCommand.Parameters.AddWithValue("@last_mod_date", advantages.last_mod_date);
+                    myCommand.Parameters.AddWithValue("@user_name", advantages.user_name);
+                    myCommand.Parameters.AddWithValue("@advantages_list", advantages.advantages_list);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -153,17 +183,17 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("Updated Successfully");
+            return new JsonResult("advantages Updated Successfully");
         }
 
 
-        //---------------------------------------------- Delete by name ----------------------------------------------
+        ////---------------------------------------------- Delete advantages by Id ----------------------------------------------
         [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        public JsonResult DeleteAdvantages(int id)
         {
             string query = @"
                 delete from advantages
-                where id=@id 
+                where (id=@id );
             ";
 
             DataTable table = new DataTable();
@@ -183,8 +213,7 @@ namespace CMS_Projekt_API.Controllers
 
                 }
             }
-
-            return new JsonResult("Deleted Successfully");
+            return new JsonResult("advantages Deleted Successfully");
         }
     }
 }
