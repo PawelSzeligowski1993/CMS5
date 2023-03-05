@@ -35,7 +35,6 @@ namespace WebApplication1.Controllers.SectionsController
                         hb.text as ""text"",
                         hb.additional_text as ""additional_text"",
                         hb.background_image as ""background_image"" 
-                        
                 from hero_banners as hb
             ";
 
@@ -110,7 +109,7 @@ namespace WebApplication1.Controllers.SectionsController
             int id = 0;
             string query = @"
                 insert into hero_banners
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text,background_image,)
+                (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text,background_image)
                 values 
                 (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@background_image)
             ";
@@ -156,10 +155,10 @@ namespace WebApplication1.Controllers.SectionsController
                 section_type = @section_type,
                 layout_position = @layout_position,
                 last_mod_date = @last_mod_date,
-                user_name = @user_name
+                user_name = @user_name,
                 text = @text,
                 additional_text = @additional_text,
-                background_image = @background_image,
+                background_image = @background_image
                 where (id = @id) 
             ";
 

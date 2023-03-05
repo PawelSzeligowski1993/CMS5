@@ -156,7 +156,7 @@ namespace CMS4.Controllers
                 user_name = @user_name,
                 text = @text,
                 additional_text = @additional_text,
-                background_image = @background_image,
+                background_image = @background_image
                 where (id = @id) 
             ";
 

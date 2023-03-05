@@ -61,7 +61,7 @@ namespace WebApplication1.Controllers.SectionsController
         }
 
 
-        //------------------- Get about_us by title -------------------
+        //------------------- Get about_us by section_name -------------------
 
         [HttpGet("{section_name}")]
         public JsonResult GetAbout_UsByTitle(string section_name)
@@ -81,6 +81,7 @@ namespace WebApplication1.Controllers.SectionsController
                         au.image2 as ""image2"",
                         au.image3 as ""image3""  
                 from about_us as au
+                where au.section_name=@section_name
             ";
 
             DataTable table = new DataTable();
@@ -167,7 +168,7 @@ namespace WebApplication1.Controllers.SectionsController
                 additional_text = @additional_text,
                 image1 = @image1,
                 image2 = @image2,
-                image3 = @image3,
+                image3 = @image3
 
                 where (id = @id) 
             ";

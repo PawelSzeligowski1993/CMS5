@@ -170,7 +170,7 @@ namespace WebApplication1.Controllers.SectionsController
                 value1 = @value1,
                 description1 = @description1,
                 value2 = @value2,
-                description2 = @description2,
+                description2 = @description2
                 where (id = @id) 
             ";
 

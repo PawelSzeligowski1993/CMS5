@@ -109,7 +109,7 @@ namespace CMS_Projekt_API.Controllers
                 insert into services
                 (id,section_name,section_type,layout_position,last_mod_date,user_name,text,services_list_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@services_list_id)
+                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@services_list_id)
             ";
 
             DataTable table = new DataTable();
