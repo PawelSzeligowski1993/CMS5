@@ -34,7 +34,7 @@ namespace CMS_Projekt_API.Controllers
                         a.layout_position as ""a.layout_position"",
                         a.last_mod_date as ""a.last_mod_date"",
                         a.user_name as ""a.user_name"",  
-                        a.advantages_list as ""a.advantages_list""
+                        a.advantages_list_id as ""a.advantages_list_id""
                  from advantages as a
             ";
 
@@ -73,7 +73,7 @@ namespace CMS_Projekt_API.Controllers
                         a.layout_position as ""a.layout_position"",
                         a.last_mod_date as ""a.last_mod_date"",
                         a.user_name as ""a.user_name"",  
-                        a.advantages_list as ""a.advantages_list""
+                        a.advantages_list_id as ""a.advantages_list_id""
                  from advantages as a
                 where (section_name=@section_name)
             ";
@@ -107,9 +107,9 @@ namespace CMS_Projekt_API.Controllers
             int id = 0;
             string query = @"
                 insert into testimonials
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,advantages_list)
+                (id,section_name,section_type,layout_position,last_mod_date,user_name,advantages_list_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@advantages_list)
+                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@advantages_list_id)
             ";
 
             DataTable table = new DataTable();
@@ -126,7 +126,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@layout_position", advantages.layout_position);
                     myCommand.Parameters.AddWithValue("@last_mod_date", advantages.last_mod_date);
                     myCommand.Parameters.AddWithValue("@user_name", advantages.user_name);
-                    myCommand.Parameters.AddWithValue("@advantages_list", advantages.advantages_list);
+                    myCommand.Parameters.AddWithValue("@advantages_list_id", advantages.advantages_list_id);
 
 
                     myReader = myCommand.ExecuteReader();
@@ -155,7 +155,7 @@ namespace CMS_Projekt_API.Controllers
                 layout_position = @layout_position,
                 last_mod_date = @last_mod_date,
                 user_name = @user_name
-                advantages_list = @advantages_list
+                advantages_list_id = @advantages_list_id
                 where (id = @id) 
             ";
 
@@ -173,7 +173,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@layout_position", advantages.layout_position);
                     myCommand.Parameters.AddWithValue("@last_mod_date", advantages.last_mod_date);
                     myCommand.Parameters.AddWithValue("@user_name", advantages.user_name);
-                    myCommand.Parameters.AddWithValue("@advantages_list", advantages.advantages_list);
+                    myCommand.Parameters.AddWithValue("@advantages_list_id", advantages.advantages_list_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

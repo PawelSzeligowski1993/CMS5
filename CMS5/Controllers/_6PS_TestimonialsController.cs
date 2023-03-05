@@ -33,7 +33,7 @@ namespace CMS_Projekt_API.Controllers
                         tm.user_name as ""tm.user_name"",  
                         tm.text as ""tm.text"",
                         tm.additional_text as ""tm.additional_text""
-                        tm.testimonials_list as ""tm.testimonials_list""
+                        tm.testimonials_list_id as ""tm.testimonials_list_id""
                  from testimonials as tm
             ";
 
@@ -74,7 +74,7 @@ namespace CMS_Projekt_API.Controllers
                         tm.user_name as ""tm.user_name"",  
                         tm.text as ""tm.text"",
                         tm.additional_text as ""tm.additional_text""
-                        tm.testimonials_list as ""tm.testimonials_list""
+                        tm.testimonials_list_id as ""tm.testimonials_list_id""
                  from testimonials as tm
                 where (section_name=@section_name)
             ";
@@ -108,9 +108,9 @@ namespace CMS_Projekt_API.Controllers
             int id = 0;
             string query = @"
                 insert into testimonials
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text,testimonials_list)
+                (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text,testimonials_list_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@testimonials_list)
+                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@testimonials_list_id)
             ";
 
             DataTable table = new DataTable();
@@ -129,7 +129,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@user_name", testimonials.user_name);
                     myCommand.Parameters.AddWithValue("@text", testimonials.text);
                     myCommand.Parameters.AddWithValue("@additional_text", testimonials.additional_text);
-                    myCommand.Parameters.AddWithValue("@testimonials_list", testimonials.testimonials_list_id);
+                    myCommand.Parameters.AddWithValue("@testimonials_list_id", testimonials.testimonials_list_id);
 
 
                     myReader = myCommand.ExecuteReader();
@@ -160,7 +160,7 @@ namespace CMS_Projekt_API.Controllers
                 user_name = @user_name
                 text = @text,
                 additional_text = @additional_text,
-                testimonials_list = @testimonials_list
+                testimonials_list_id = @testimonials_list_id
                 where (id = @id) 
             ";
 
@@ -180,7 +180,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@user_name", testimonials.user_name);
                     myCommand.Parameters.AddWithValue("@text", testimonials.text);
                     myCommand.Parameters.AddWithValue("@additional_text", testimonials.additional_text);
-                    myCommand.Parameters.AddWithValue("@testimonials_list", testimonials.testimonials_list);
+                    myCommand.Parameters.AddWithValue("@testimonials_list_id", testimonials.testimonials_list_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

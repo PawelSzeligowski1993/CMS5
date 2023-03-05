@@ -33,7 +33,7 @@ namespace CMS_Projekt_API.Controllers
                         serv.last_mod_date as ""serv.last_mod_date"",
                         serv.user_name as ""serv.user_name"",  
                         serv.text as ""serv.text"",
-                        serv.services_list as ""serv.services_list""
+                        serv.services_list_id as ""serv.services_list_id""
                  from services as serv
             ";
 
@@ -73,7 +73,7 @@ namespace CMS_Projekt_API.Controllers
                         serv.last_mod_date as ""serv.last_mod_date"",
                         serv.user_name as ""serv.user_name"",  
                         serv.text as ""serv.text"",
-                        serv.services_list as ""serv.services_list""
+                        serv.services_list as ""serv.services_list_id""
                  from services as serv
                 where (section_name=@section_name)
             ";
@@ -107,9 +107,9 @@ namespace CMS_Projekt_API.Controllers
             int id = 0;
             string query = @"
                 insert into services
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,text,services_list)
+                (id,section_name,section_type,layout_position,last_mod_date,user_name,text,services_list_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@services_list)
+                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@services_list_id)
             ";
 
             DataTable table = new DataTable();
@@ -127,7 +127,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
                     myCommand.Parameters.AddWithValue("@user_name", services.user_name);
                     myCommand.Parameters.AddWithValue("@text", services.text);
-                    myCommand.Parameters.AddWithValue("@services_list", services.services_list);
+                    myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
 
 
                     myReader = myCommand.ExecuteReader();
@@ -157,7 +157,7 @@ namespace CMS_Projekt_API.Controllers
                 last_mod_date = @last_mod_date,
                 user_name = @user_name
                 text = @text,
-                services_list = @services_list
+                services_list_id = @services_list_id
                 where (id = @id) 
             ";
 
@@ -176,7 +176,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
                     myCommand.Parameters.AddWithValue("@user_name", services.user_name);
                     myCommand.Parameters.AddWithValue("@text", services.text);
-                    myCommand.Parameters.AddWithValue("@services_list", services.services_list);
+                    myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
