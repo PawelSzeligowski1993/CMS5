@@ -5,9 +5,8 @@ namespace WebApplication1.Models.DTO
 {
     public class DB2_ServicesDTO
     {
-
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         [Required]
         public string section_name { get; set; }
@@ -16,11 +15,5 @@ namespace WebApplication1.Models.DTO
         public DateTime last_mod_date { get; set; }
         public string user_name { get; set; }
         public string text { get; set; }
-
-
-        [ForeignKey("services_list")]
-        public int services_list_id { get; set; }
-        public DB2_ServicesListDTO services_list { get; set; }
-
     }
 }

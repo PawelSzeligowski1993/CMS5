@@ -9,16 +9,16 @@ namespace CMS_Projekt_API.Controllers
  
     [Route("api/[controller]")]
     [ApiController]
-    public class _2PS_ServicesController : ControllerBase
+    public class _7PS_AdvantagesListController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public _2PS_ServicesController(IConfiguration configuration)
+        public _7PS_AdvantagesListController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
         //------------------------------------------- GET ------------------------------------------------
-        //-------------------Get all services -------------------
+        //-------------------Get all advantagesList -------------------
         [HttpGet]
         public JsonResult Get_All_Services()
         {
@@ -26,14 +26,12 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        serv.id as ""serv.id"",
-                        serv.section_name as ""serv.section_name"",
-                        serv.section_type as ""serv.section_type"",
-                        serv.layout_position as ""serv.layout_position"",
-                        serv.last_mod_date as ""serv.last_mod_date"",
-                        serv.user_name as ""serv.user_name"",  
-                        serv.text as ""serv.text""
-                 from services as serv
+                        adv_li.id as ""adv_li.id"",
+                        adv_li.text as ""adv_li.text"",
+                        adv_li.additional_text as ""adv_li.additional_text"",
+                        adv_li.icon_url as ""adv_li.icon_url"",
+                        adv_li.advantages_id as ""adv_li.advantages_id""
+                 from advantages_list as adv_li
             ";
 
             DataTable table = new DataTable();
@@ -57,23 +55,21 @@ namespace CMS_Projekt_API.Controllers
         }
 
 
-        //------------------- Get services by title -------------------
+        //------------------- Get advantagesList by title -------------------
 
-        [HttpGet("{section_name}")]
-        public JsonResult GetServicesByTitle(string section_name)
+        [HttpGet("{text}")]
+        public JsonResult GetServicesByTitle(string text)
         {
 
             string query = @"
                 select 
-                        serv.id as ""serv.id"",
-                        serv.section_name as ""serv.section_name"",
-                        serv.section_type as ""serv.section_type"",
-                        serv.layout_position as ""serv.layout_position"",
-                        serv.last_mod_date as ""serv.last_mod_date"",
-                        serv.user_name as ""serv.user_name"",  
-                        serv.text as ""serv.text""
-                 from services as serv
-                where (section_name=@section_name)
+                        adv_li.id as ""adv_li.id"",
+                        adv_li.text as ""adv_li.text"",
+                        adv_li.additional_text as ""adv_li.additional_text"",
+                        adv_li.icon_url as ""adv_li.icon_url"",
+                        adv_li.advantages_id as ""adv_li.advantages_id""
+                 from advantages_list as adv_li
+                where (text=@text)
             ";
 
             DataTable table = new DataTable();
@@ -85,7 +81,7 @@ namespace CMS_Projekt_API.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@section_name", section_name);
+                    myCommand.Parameters.AddWithValue("@text", text);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -98,16 +94,16 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
-        ////------------------------------------------- POST by name services ------------------------------------------------
+        ////------------------------------------------- POST by name advantagesList ------------------------------------------------
         [HttpPost]
-        public JsonResult PostServices(DB2_ServicesDTO services)
+        public JsonResult PostServices(DB7_AdvantagesListDTO advantagesList)
         {
             int id = 0;
             string query = @"
-                insert into services
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,text)
+                insert into advantages_list
+                (id,text,additional_text,icon_url,advantages_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text)
+                (@id,@text,@additional_text,@icon_url,@advantages_id)
             ";
 
             DataTable table = new DataTable();
@@ -118,14 +114,11 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", services.id);
-                    myCommand.Parameters.AddWithValue("@section_name", services.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", services.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", services.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@user_name", services.user_name);
-                    myCommand.Parameters.AddWithValue("@text", services.text);
-                    //myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
+                    myCommand.Parameters.AddWithValue("@id", advantagesList.id);
+                    myCommand.Parameters.AddWithValue("@text", advantagesList.text);
+                    myCommand.Parameters.AddWithValue("@additional_text", advantagesList.additional_text);
+                    myCommand.Parameters.AddWithValue("@icon_url", advantagesList.icon_url);
+                    myCommand.Parameters.AddWithValue("@advantages_id", advantagesList.advantages_id);
 
 
                     myReader = myCommand.ExecuteReader();
@@ -137,24 +130,22 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("New services Added Successfully");
+            return new JsonResult("New advantages_list Added Successfully");
         }
 
 
-        ////------------------------------------------- PUT (update) IN services ------------------------------------------------
+        ////------------------------------------------- PUT (update) IN advantagesList ------------------------------------------------
 
         [HttpPut]
-        public JsonResult PutInServices(DB2_ServicesDTO services)
+        public JsonResult PutInServices(DB7_AdvantagesListDTO advantagesList)
         {
             string query = @"
-                update services
-                set id = @id,
-                section_name = @section_name,
-                section_type = @section_type,
-                layout_position = @layout_position,
-                last_mod_date = @last_mod_date,
-                user_name = @user_name,
-                text = @text
+                update advantages_list
+                    set id = @id,
+                    text = @text,
+                    additional_text = @additional_text,
+                    icon_url = @icon_url,
+                    advantages_id = @advantages_id
                 where (id = @id) 
             ";
 
@@ -166,13 +157,11 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", services.id);
-                    myCommand.Parameters.AddWithValue("@section_name", services.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", services.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", services.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@user_name", services.user_name);
-                    myCommand.Parameters.AddWithValue("@text", services.text);
+                    myCommand.Parameters.AddWithValue("@id", advantagesList.id);
+                    myCommand.Parameters.AddWithValue("@text", advantagesList.text);
+                    myCommand.Parameters.AddWithValue("@additional_text", advantagesList.additional_text);
+                    myCommand.Parameters.AddWithValue("@icon_url", advantagesList.icon_url);
+                    myCommand.Parameters.AddWithValue("@advantages_id", advantagesList.advantages_id);
                     //myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -183,16 +172,16 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("services Updated Successfully");
+            return new JsonResult("advantages_list Updated Successfully");
         }
 
 
-        ////---------------------------------------------- Delete Services by Id ----------------------------------------------
+        ////---------------------------------------------- Delete advantages_list by Id ----------------------------------------------
         [HttpDelete("{id}")]
         public JsonResult DeleteServices(int id)
         {
             string query = @"
-                delete from services
+                delete from advantages_list
                 where (id=@id );
             ";
 
@@ -213,8 +202,7 @@ namespace CMS_Projekt_API.Controllers
 
                 }
             }
-            return new JsonResult("services Deleted Successfully");
+            return new JsonResult("advantages_list Deleted Successfully");
         }
-
     }
 }

@@ -9,31 +9,30 @@ namespace CMS_Projekt_API.Controllers
  
     [Route("api/[controller]")]
     [ApiController]
-    public class _2PS_ServicesController : ControllerBase
+    public class _6PS_TestimonialsListController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public _2PS_ServicesController(IConfiguration configuration)
+        public _6PS_TestimonialsListController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
         //------------------------------------------- GET ------------------------------------------------
-        //-------------------Get all services -------------------
+        //-------------------Get all TestimonialsList -------------------
         [HttpGet]
-        public JsonResult Get_All_Services()
+        public JsonResult Get_All_TestimonialsList()
         {
 
 
             string query = @"
                 select 
-                        serv.id as ""serv.id"",
-                        serv.section_name as ""serv.section_name"",
-                        serv.section_type as ""serv.section_type"",
-                        serv.layout_position as ""serv.layout_position"",
-                        serv.last_mod_date as ""serv.last_mod_date"",
-                        serv.user_name as ""serv.user_name"",  
-                        serv.text as ""serv.text""
-                 from services as serv
+                        test_li.id as ""test_li.id"",
+                        test_li.rating as ""test_li.rating"",
+                        test_li.opinion as ""test_li.opinion"",
+                        test_li.author as ""test_li.author"",
+                        test_li.author_description as ""test_li.author_description"",
+                        test_li.testimonials_id as ""test_li.testimonials_id""
+                 from testimonials_list as test_li
             ";
 
             DataTable table = new DataTable();
@@ -57,23 +56,22 @@ namespace CMS_Projekt_API.Controllers
         }
 
 
-        //------------------- Get services by title -------------------
+        //------------------- Get TestimonialsList by author_description -------------------
 
-        [HttpGet("{section_name}")]
-        public JsonResult GetServicesByTitle(string section_name)
+        [HttpGet("{author}")]
+        public JsonResult GetTestimonialsListByTitle(string author)
         {
 
             string query = @"
                 select 
-                        serv.id as ""serv.id"",
-                        serv.section_name as ""serv.section_name"",
-                        serv.section_type as ""serv.section_type"",
-                        serv.layout_position as ""serv.layout_position"",
-                        serv.last_mod_date as ""serv.last_mod_date"",
-                        serv.user_name as ""serv.user_name"",  
-                        serv.text as ""serv.text""
-                 from services as serv
-                where (section_name=@section_name)
+                        test_li.id as ""test_li.id"",
+                        test_li.rating as ""test_li.rating"",
+                        test_li.opinion as ""test_li.opinion"",
+                        test_li.author as ""test_li.author"",
+                        test_li.author_description as ""test_li.author_description"",
+                        test_li.testimonials_id as ""test_li.testimonials_id""
+                 from testimonials_list as test_li
+                where (author=@author)
             ";
 
             DataTable table = new DataTable();
@@ -85,7 +83,7 @@ namespace CMS_Projekt_API.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@section_name", section_name);
+                    myCommand.Parameters.AddWithValue("@author", author);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -98,16 +96,16 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
-        ////------------------------------------------- POST by name services ------------------------------------------------
+        ////------------------------------------------- POST by name TestimonialsList ------------------------------------------------
         [HttpPost]
-        public JsonResult PostServices(DB2_ServicesDTO services)
+        public JsonResult PostTestimonialsList(DB6_TestimonialsListDTO testimonialsList)
         {
             int id = 0;
             string query = @"
-                insert into services
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,text)
+                insert into testimonials_list
+                (id,rating,opinion,author,author_description,testimonials_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text)
+                (@id,@rating,@opinion,@author,@author_description,@testimonials_id)
             ";
 
             DataTable table = new DataTable();
@@ -118,13 +116,12 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", services.id);
-                    myCommand.Parameters.AddWithValue("@section_name", services.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", services.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", services.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@user_name", services.user_name);
-                    myCommand.Parameters.AddWithValue("@text", services.text);
+                    myCommand.Parameters.AddWithValue("@id", testimonialsList.id);
+                    myCommand.Parameters.AddWithValue("@rating", testimonialsList.rating);
+                    myCommand.Parameters.AddWithValue("@opinion", testimonialsList.opinion);
+                    myCommand.Parameters.AddWithValue("@author", testimonialsList.author);
+                    myCommand.Parameters.AddWithValue("@author_description", testimonialsList.author_description);
+                    myCommand.Parameters.AddWithValue("@testimonials_id", testimonialsList.testimonials_id);
                     //myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
 
 
@@ -137,24 +134,23 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("New services Added Successfully");
+            return new JsonResult("New TestimonialsList Added Successfully");
         }
 
 
-        ////------------------------------------------- PUT (update) IN services ------------------------------------------------
+        ////------------------------------------------- PUT (update) IN TestimonialsList ------------------------------------------------
 
         [HttpPut]
-        public JsonResult PutInServices(DB2_ServicesDTO services)
+        public JsonResult PutInServices(DB6_TestimonialsListDTO testimonialsList)
         {
             string query = @"
-                update services
-                set id = @id,
-                section_name = @section_name,
-                section_type = @section_type,
-                layout_position = @layout_position,
-                last_mod_date = @last_mod_date,
-                user_name = @user_name,
-                text = @text
+                update testimonials_list
+                        set id = @id,
+                        rating = @rating,
+                        opinion = @opinion,
+                        author = @author,
+                        author_description = @author_description,
+                        testimonials_id = @testimonials_id
                 where (id = @id) 
             ";
 
@@ -166,13 +162,12 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", services.id);
-                    myCommand.Parameters.AddWithValue("@section_name", services.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", services.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", services.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@user_name", services.user_name);
-                    myCommand.Parameters.AddWithValue("@text", services.text);
+                    myCommand.Parameters.AddWithValue("@id", testimonialsList.id);
+                    myCommand.Parameters.AddWithValue("@rating", testimonialsList.rating);
+                    myCommand.Parameters.AddWithValue("@opinion", testimonialsList.opinion);
+                    myCommand.Parameters.AddWithValue("@author", testimonialsList.author);
+                    myCommand.Parameters.AddWithValue("@author_description", testimonialsList.author_description);
+                    myCommand.Parameters.AddWithValue("@testimonials_id", testimonialsList.testimonials_id);
                     //myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -183,16 +178,16 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("services Updated Successfully");
+            return new JsonResult("TestimonialsList Updated Successfully");
         }
 
 
-        ////---------------------------------------------- Delete Services by Id ----------------------------------------------
+        ////---------------------------------------------- Delete TestimonialsList by Id ----------------------------------------------
         [HttpDelete("{id}")]
-        public JsonResult DeleteServices(int id)
+        public JsonResult DeleteTestimonialsList(int id)
         {
             string query = @"
-                delete from services
+                delete from testimonials_list
                 where (id=@id );
             ";
 
@@ -213,7 +208,7 @@ namespace CMS_Projekt_API.Controllers
 
                 }
             }
-            return new JsonResult("services Deleted Successfully");
+            return new JsonResult("TestimonialsList Deleted Successfully");
         }
 
     }

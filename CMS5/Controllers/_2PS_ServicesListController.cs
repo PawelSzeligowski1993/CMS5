@@ -3,37 +3,35 @@ using Npgsql;
 using System.Data;
 using WebApplication1.Models.DTO;
 
-namespace CMS_Projekt_API.Controllers
+namespace CMS5.Controllers
 {
-    
- 
+
     [Route("api/[controller]")]
     [ApiController]
-    public class _2PS_ServicesController : ControllerBase
+    public class _2PS_ServicesListController : Controller
     {
         private readonly IConfiguration _configuration;
-        public _2PS_ServicesController(IConfiguration configuration)
+        public _2PS_ServicesListController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
+
         //------------------------------------------- GET ------------------------------------------------
-        //-------------------Get all services -------------------
+        //-------------------Get all services_list -------------------
         [HttpGet]
-        public JsonResult Get_All_Services()
+        public JsonResult Get_All_Services_List()
         {
 
 
             string query = @"
                 select 
-                        serv.id as ""serv.id"",
-                        serv.section_name as ""serv.section_name"",
-                        serv.section_type as ""serv.section_type"",
-                        serv.layout_position as ""serv.layout_position"",
-                        serv.last_mod_date as ""serv.last_mod_date"",
-                        serv.user_name as ""serv.user_name"",  
-                        serv.text as ""serv.text""
-                 from services as serv
+                        serv_li.id as ""serv_li.id"",
+                        serv_li.text as ""serv_li.text"",
+                        serv_li.additional_text as ""serv_li.additional_text"",
+                        serv_li.baner_section_name as ""serv_li.baner_section_name"",
+                        serv_li.services_id as ""serv_li.services_id""
+                 from services_list as serv_li
             ";
 
             DataTable table = new DataTable();
@@ -57,23 +55,21 @@ namespace CMS_Projekt_API.Controllers
         }
 
 
-        //------------------- Get services by title -------------------
+        //------------------- Get services_list by title -------------------
 
-        [HttpGet("{section_name}")]
-        public JsonResult GetServicesByTitle(string section_name)
+        [HttpGet("{baner_section_name}")]
+        public JsonResult GetServicesListByTitle(string baner_section_name)
         {
 
             string query = @"
                 select 
-                        serv.id as ""serv.id"",
-                        serv.section_name as ""serv.section_name"",
-                        serv.section_type as ""serv.section_type"",
-                        serv.layout_position as ""serv.layout_position"",
-                        serv.last_mod_date as ""serv.last_mod_date"",
-                        serv.user_name as ""serv.user_name"",  
-                        serv.text as ""serv.text""
-                 from services as serv
-                where (section_name=@section_name)
+                        serv_li.id as ""serv_li.id"",
+                        serv_li.text as ""serv_li.text"",
+                        serv_li.additional_text as ""serv_li.additional_text"",
+                        serv_li.baner_section_name as ""serv_li.baner_section_name"",
+                        serv_li.services_id as ""serv_li.services_id""
+                 from services_list as serv_li
+                where (baner_section_name=@baner_section_name)
             ";
 
             DataTable table = new DataTable();
@@ -85,7 +81,7 @@ namespace CMS_Projekt_API.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@section_name", section_name);
+                    myCommand.Parameters.AddWithValue("@baner_section_name", baner_section_name);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -98,16 +94,16 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
-        ////------------------------------------------- POST by name services ------------------------------------------------
+        ////------------------------------------------- POST by name services_list ------------------------------------------------
         [HttpPost]
-        public JsonResult PostServices(DB2_ServicesDTO services)
+        public JsonResult PostServices(DB2_ServicesListDTO services_list)
         {
             int id = 0;
             string query = @"
-                insert into services
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,text)
+                insert into services_list
+                (id,text,additional_text,baner_section_name,services_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text)
+                (@id,@text,@additional_text,@baner_section_name,@services_id)
             ";
 
             DataTable table = new DataTable();
@@ -118,13 +114,12 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", services.id);
-                    myCommand.Parameters.AddWithValue("@section_name", services.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", services.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", services.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@user_name", services.user_name);
-                    myCommand.Parameters.AddWithValue("@text", services.text);
+                    myCommand.Parameters.AddWithValue("@id", services_list.id);
+                    myCommand.Parameters.AddWithValue("@text", services_list.text);
+                    myCommand.Parameters.AddWithValue("@additional_text", services_list.additional_text);
+                    myCommand.Parameters.AddWithValue("@baner_section_name", services_list.baner_section_name);
+                    myCommand.Parameters.AddWithValue("@services_id", services_list.services_id);
+
                     //myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
 
 
@@ -137,24 +132,22 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("New services Added Successfully");
+            return new JsonResult("New services_list Added Successfully");
         }
 
 
-        ////------------------------------------------- PUT (update) IN services ------------------------------------------------
+        ////------------------------------------------- PUT (update) IN services_list ------------------------------------------------
 
         [HttpPut]
-        public JsonResult PutInServices(DB2_ServicesDTO services)
+        public JsonResult PutInServices(DB2_ServicesListDTO services_list)
         {
             string query = @"
-                update services
+                update services_list
                 set id = @id,
-                section_name = @section_name,
-                section_type = @section_type,
-                layout_position = @layout_position,
-                last_mod_date = @last_mod_date,
-                user_name = @user_name,
-                text = @text
+                text = @text,
+                additional_text = @additional_text,
+                baner_section_name = @baner_section_name,
+                services_id = @services_id
                 where (id = @id) 
             ";
 
@@ -166,13 +159,11 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", services.id);
-                    myCommand.Parameters.AddWithValue("@section_name", services.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", services.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", services.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", services.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@user_name", services.user_name);
-                    myCommand.Parameters.AddWithValue("@text", services.text);
+                    myCommand.Parameters.AddWithValue("@id", services_list.id);
+                    myCommand.Parameters.AddWithValue("@text", services_list.text);
+                    myCommand.Parameters.AddWithValue("@additional_text", services_list.additional_text);
+                    myCommand.Parameters.AddWithValue("@baner_section_name", services_list.baner_section_name);
+                    myCommand.Parameters.AddWithValue("@services_id", services_list.services_id);
                     //myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -183,16 +174,16 @@ namespace CMS_Projekt_API.Controllers
                 }
             }
 
-            return new JsonResult("services Updated Successfully");
+            return new JsonResult("services_list Updated Successfully");
         }
 
 
-        ////---------------------------------------------- Delete Services by Id ----------------------------------------------
+        ////---------------------------------------------- Delete services_list by Id ----------------------------------------------
         [HttpDelete("{id}")]
-        public JsonResult DeleteServices(int id)
+        public JsonResult DeleteServicesList(int id)
         {
             string query = @"
-                delete from services
+                delete from services_list
                 where (id=@id );
             ";
 
@@ -213,7 +204,7 @@ namespace CMS_Projekt_API.Controllers
 
                 }
             }
-            return new JsonResult("services Deleted Successfully");
+            return new JsonResult("services_list Deleted Successfully");
         }
 
     }

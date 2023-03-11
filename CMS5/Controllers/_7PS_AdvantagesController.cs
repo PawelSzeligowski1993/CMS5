@@ -1,20 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Npgsql;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Data;
-using System.Drawing;
-using WebApplication1.Data;
 using WebApplication1.Models.DTO;
 
 namespace CMS_Projekt_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class _7PS_AdvantagesCoontroller : ControllerBase
+    public class _7PS_AdvantagesController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public _7PS_AdvantagesCoontroller(IConfiguration configuration)
+        public _7PS_AdvantagesController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -24,8 +20,6 @@ namespace CMS_Projekt_API.Controllers
         [HttpGet]
         public JsonResult Get_All_Advantages()
         {
-
-
             string query = @"
                 select 
                         a.id as ""a.id"",
@@ -33,8 +27,7 @@ namespace CMS_Projekt_API.Controllers
                         a.section_type as ""a.section_type"",
                         a.layout_position as ""a.layout_position"",
                         a.last_mod_date as ""a.last_mod_date"",
-                        a.user_name as ""a.user_name"",  
-                        a.advantages_list_id as ""a.advantages_list_id""
+                        a.user_name as ""a.user_name""
                  from advantages as a
             ";
 
@@ -72,8 +65,7 @@ namespace CMS_Projekt_API.Controllers
                         a.section_type as ""a.section_type"",
                         a.layout_position as ""a.layout_position"",
                         a.last_mod_date as ""a.last_mod_date"",
-                        a.user_name as ""a.user_name"",  
-                        a.advantages_list_id as ""a.advantages_list_id""
+                        a.user_name as ""a.user_name""
                  from advantages as a
                 where (section_name=@section_name)
             ";
@@ -106,10 +98,10 @@ namespace CMS_Projekt_API.Controllers
         {
             int id = 0;
             string query = @"
-                insert into testimonials
-                (id,section_name,section_type,layout_position,last_mod_date,user_name,advantages_list_id)
+                insert into advantages
+                (id,section_name,section_type,layout_position,last_mod_date,user_name)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@advantages_list_id)
+                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name)
             ";
 
             DataTable table = new DataTable();
@@ -126,7 +118,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@layout_position", advantages.layout_position);
                     myCommand.Parameters.AddWithValue("@last_mod_date", advantages.last_mod_date);
                     myCommand.Parameters.AddWithValue("@user_name", advantages.user_name);
-                    myCommand.Parameters.AddWithValue("@advantages_list_id", advantages.advantages_list_id);
+                    //myCommand.Parameters.AddWithValue("@advantages_list_id", advantages.advantages_list_id);
 
 
                     myReader = myCommand.ExecuteReader();
@@ -155,7 +147,6 @@ namespace CMS_Projekt_API.Controllers
                 layout_position = @layout_position,
                 last_mod_date = @last_mod_date,
                 user_name = @user_name
-                advantages_list_id = @advantages_list_id
                 where (id = @id) 
             ";
 
@@ -173,7 +164,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@layout_position", advantages.layout_position);
                     myCommand.Parameters.AddWithValue("@last_mod_date", advantages.last_mod_date);
                     myCommand.Parameters.AddWithValue("@user_name", advantages.user_name);
-                    myCommand.Parameters.AddWithValue("@advantages_list_id", advantages.advantages_list_id);
+                    //myCommand.Parameters.AddWithValue("@advantages_list_id", advantages.advantages_list_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
