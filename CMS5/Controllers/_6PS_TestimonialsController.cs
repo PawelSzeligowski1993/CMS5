@@ -54,7 +54,6 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
-
         //------------------- Get testimonials by title -------------------
 
         [HttpGet("{section_name}")]
@@ -96,6 +95,7 @@ namespace CMS_Projekt_API.Controllers
 
             return new JsonResult(table);
         }
+
 
         ////------------------------------------------- POST by name testimonials ------------------------------------------------
         [HttpPost]

@@ -55,21 +55,22 @@ namespace CMS5.Controllers
         }
 
 
-        //------------------- Get services_list by title -------------------
+        //------------------- Get servicesList by services_id -------------------
 
-        [HttpGet("{baner_section_name}")]
-        public JsonResult GetServicesListByTitle(string baner_section_name)
+        [HttpGet("{services_id}")]
+        public JsonResult GetServicesById(int services_id)
         {
-
             string query = @"
-                select 
+                 select 
                         serv_li.id as ""id"",
                         serv_li.text as ""text"",
                         serv_li.additional_text as ""additional_text"",
                         serv_li.baner_section_name as ""baner_section_name"",
                         serv_li.services_id as ""services_id""
                  from services_list as serv_li
-                where (baner_section_name=@baner_section_name)
+                 where (services_id=@services_id)
+
+
             ";
 
             DataTable table = new DataTable();
@@ -81,7 +82,7 @@ namespace CMS5.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@baner_section_name", baner_section_name);
+                    myCommand.Parameters.AddWithValue("@services_id", services_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

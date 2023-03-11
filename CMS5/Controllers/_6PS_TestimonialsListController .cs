@@ -55,15 +55,13 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
+        //------------------- Get TestimonialsList by testimonials_id -------------------
 
-        //------------------- Get TestimonialsList by author_description -------------------
-
-        [HttpGet("{author}")]
-        public JsonResult GetTestimonialsListByTitle(string author)
+        [HttpGet("{testimonials_id}")]
+        public JsonResult GetTestimonialsListByTestimonialsId(int testimonials_id)
         {
-
             string query = @"
-                select 
+                 select 
                         test_li.id as ""id"",
                         test_li.rating as ""rating"",
                         test_li.opinion as ""opinion"",
@@ -71,7 +69,9 @@ namespace CMS_Projekt_API.Controllers
                         test_li.author_description as ""author_description"",
                         test_li.testimonials_id as ""testimonials_id""
                  from testimonials_list as test_li
-                where (author=@author)
+                 where (testimonials_id=@testimonials_id)
+
+
             ";
 
             DataTable table = new DataTable();
@@ -83,7 +83,7 @@ namespace CMS_Projekt_API.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@author", author);
+                    myCommand.Parameters.AddWithValue("@testimonials_id", testimonials_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -95,6 +95,47 @@ namespace CMS_Projekt_API.Controllers
 
             return new JsonResult(table);
         }
+
+
+        ////------------------- Get TestimonialsList by author_description -------------------
+
+        //[HttpGet("{author}")]
+        //public JsonResult GetTestimonialsListByTitle(string author)
+        //{
+
+        //    string query = @"
+        //        select 
+        //                test_li.id as ""id"",
+        //                test_li.rating as ""rating"",
+        //                test_li.opinion as ""opinion"",
+        //                test_li.author as ""author"",
+        //                test_li.author_description as ""author_description"",
+        //                test_li.testimonials_id as ""testimonials_id""
+        //         from testimonials_list as test_li
+        //        where (author=@author)
+        //    ";
+
+        //    DataTable table = new DataTable();
+        //    string sqlDataSource = _configuration.GetConnectionString("SampleDBConnection");
+        //    NpgsqlDataReader myReader;
+        //    using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+        //    {
+        //        myCon.Open();
+        //        using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+        //        {
+
+        //            myCommand.Parameters.AddWithValue("@author", author);
+        //            myReader = myCommand.ExecuteReader();
+        //            table.Load(myReader);
+
+        //            myReader.Close();
+        //            myCon.Close();
+
+        //        }
+        //    }
+
+        //    return new JsonResult(table);
+        //}
 
         ////------------------------------------------- POST by name TestimonialsList ------------------------------------------------
         [HttpPost]

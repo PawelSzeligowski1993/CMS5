@@ -54,22 +54,20 @@ namespace CMS_Projekt_API.Controllers
             return new JsonResult(table);
         }
 
+        //------------------- Get advantages_list by advantages_id -------------------
 
-        //------------------- Get advantagesList by title -------------------
-
-        [HttpGet("{text}")]
-        public JsonResult GetAdvantagesListByTitle(string text)
+        [HttpGet("{advantages_id}")]
+        public JsonResult GetAdvantagesListByAdvantagesId(int advantages_id)
         {
-
             string query = @"
-                select 
+                 select 
                         adv_li.id as ""id"",
                         adv_li.text as ""text"",
                         adv_li.additional_text as ""additional_text"",
                         adv_li.icon_url as ""icon_url"",
                         adv_li.advantages_id as ""advantages_id""
                  from advantages_list as adv_li
-                where (text=@text)
+                 where (advantages_id=@advantages_id)
             ";
 
             DataTable table = new DataTable();
@@ -81,7 +79,7 @@ namespace CMS_Projekt_API.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@text", text);
+                    myCommand.Parameters.AddWithValue("@advantages_id", advantages_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -93,6 +91,46 @@ namespace CMS_Projekt_API.Controllers
 
             return new JsonResult(table);
         }
+
+
+        ////------------------- Get advantagesList by title -------------------
+
+        //[HttpGet("{text}")]
+        //public JsonResult GetAdvantagesListByTitle(string text)
+        //{
+
+        //    string query = @"
+        //        select 
+        //                adv_li.id as ""id"",
+        //                adv_li.text as ""text"",
+        //                adv_li.additional_text as ""additional_text"",
+        //                adv_li.icon_url as ""icon_url"",
+        //                adv_li.advantages_id as ""advantages_id""
+        //         from advantages_list as adv_li
+        //        where (text=@text)
+        //    ";
+
+        //    DataTable table = new DataTable();
+        //    string sqlDataSource = _configuration.GetConnectionString("SampleDBConnection");
+        //    NpgsqlDataReader myReader;
+        //    using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+        //    {
+        //        myCon.Open();
+        //        using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+        //        {
+
+        //            myCommand.Parameters.AddWithValue("@text", text);
+        //            myReader = myCommand.ExecuteReader();
+        //            table.Load(myReader);
+
+        //            myReader.Close();
+        //            myCon.Close();
+
+        //        }
+        //    }
+
+        //    return new JsonResult(table);
+        //}
 
         ////------------------------------------------- POST by name advantagesList ------------------------------------------------
         [HttpPost]
