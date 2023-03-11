@@ -20,7 +20,7 @@ namespace CMS_Projekt_API.Controllers
         //------------------------------------------- GET ------------------------------------------------
         //-------------------Get all advantagesList -------------------
         [HttpGet]
-        public JsonResult Get_All_Services()
+        public JsonResult Get_All_advantagesList()
         {
 
 
@@ -58,7 +58,7 @@ namespace CMS_Projekt_API.Controllers
         //------------------- Get advantagesList by title -------------------
 
         [HttpGet("{text}")]
-        public JsonResult GetServicesByTitle(string text)
+        public JsonResult GetAdvantagesListByTitle(string text)
         {
 
             string query = @"
@@ -96,7 +96,7 @@ namespace CMS_Projekt_API.Controllers
 
         ////------------------------------------------- POST by name advantagesList ------------------------------------------------
         [HttpPost]
-        public JsonResult PostServices(DB7_AdvantagesListDTO advantagesList)
+        public JsonResult PostAdvantagesList(DB7_AdvantagesListDTO advantagesList)
         {
             int id = 0;
             string query = @"
@@ -137,7 +137,7 @@ namespace CMS_Projekt_API.Controllers
         ////------------------------------------------- PUT (update) IN advantagesList ------------------------------------------------
 
         [HttpPut]
-        public JsonResult PutInServices(DB7_AdvantagesListDTO advantagesList)
+        public JsonResult PutInAdvantagesList(DB7_AdvantagesListDTO advantagesList)
         {
             string query = @"
                 update advantages_list
@@ -178,7 +178,7 @@ namespace CMS_Projekt_API.Controllers
 
         ////---------------------------------------------- Delete advantages_list by Id ----------------------------------------------
         [HttpDelete("{id}")]
-        public JsonResult DeleteServices(int id)
+        public JsonResult DeleteAdvantagesList(int id)
         {
             string query = @"
                 delete from advantages_list
