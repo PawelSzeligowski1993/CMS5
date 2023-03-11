@@ -26,11 +26,11 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        adv_li.id as ""adv_li.id"",
-                        adv_li.text as ""adv_li.text"",
-                        adv_li.additional_text as ""adv_li.additional_text"",
-                        adv_li.icon_url as ""adv_li.icon_url"",
-                        adv_li.advantages_id as ""adv_li.advantages_id""
+                        adv_li.id as ""id"",
+                        adv_li.text as ""text"",
+                        adv_li.additional_text as ""additional_text"",
+                        adv_li.icon_url as ""icon_url"",
+                        adv_li.advantages_id as ""advantages_id""
                  from advantages_list as adv_li
             ";
 
@@ -63,11 +63,11 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        adv_li.id as ""adv_li.id"",
-                        adv_li.text as ""adv_li.text"",
-                        adv_li.additional_text as ""adv_li.additional_text"",
-                        adv_li.icon_url as ""adv_li.icon_url"",
-                        adv_li.advantages_id as ""adv_li.advantages_id""
+                        adv_li.id as ""id"",
+                        adv_li.text as ""text"",
+                        adv_li.additional_text as ""additional_text"",
+                        adv_li.icon_url as ""icon_url"",
+                        adv_li.advantages_id as ""advantages_id""
                  from advantages_list as adv_li
                 where (text=@text)
             ";

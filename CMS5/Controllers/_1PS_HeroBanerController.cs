@@ -26,7 +26,7 @@ namespace WebApplication1.Controllers.SectionsController
 
             string query = @"
                 select 
-                        hb.id as ""hb.id"",
+                        hb.id as ""id"",
                         hb.section_name as ""section_name"",
                         hb.section_type as ""section_type"",
                         hb.layout_position as ""layout_position"",
@@ -67,7 +67,7 @@ namespace WebApplication1.Controllers.SectionsController
             //string name = "hero_banners";
             string query = @"
                 select 
-                        hb.id as ""hb.id"",
+                        hb.id as ""id"",
                         hb.section_name as ""section_name"",
                         hb.section_type as ""section_type"",
                         hb.layout_position as ""layout_position"",

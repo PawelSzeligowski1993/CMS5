@@ -23,14 +23,14 @@ namespace CMS_Projekt_API.Controllers
         {
             string query = @"
                 select 
-                        tm.id as ""tm.id"",
-                        tm.section_name as ""tm.section_name"",
-                        tm.section_type as ""tm.section_type"",
-                        tm.layout_position as ""tm.layout_position"",
-                        tm.last_mod_date as ""tm.last_mod_date"",
-                        tm.user_name as ""tm.user_name"",  
-                        tm.text as ""tm.text"",
-                        tm.additional_text as ""tm.additional_text""
+                        tm.id as ""id"",
+                        tm.section_name as ""section_name"",
+                        tm.section_type as ""section_type"",
+                        tm.layout_position as ""layout_position"",
+                        tm.last_mod_date as ""last_mod_date"",
+                        tm.user_name as ""user_name"",  
+                        tm.text as ""text"",
+                        tm.additional_text as ""additional_text""
                  from testimonials as tm
             ";
 
@@ -63,14 +63,14 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        tm.id as ""tm.id"",
-                        tm.section_name as ""tm.section_name"",
-                        tm.section_type as ""tm.section_type"",
-                        tm.layout_position as ""tm.layout_position"",
-                        tm.last_mod_date as ""tm.last_mod_date"",
-                        tm.user_name as ""tm.user_name"",  
-                        tm.text as ""tm.text"",
-                        tm.additional_text as ""tm.additional_text""
+                        tm.id as ""id"",
+                        tm.section_name as ""section_name"",
+                        tm.section_type as ""section_type"",
+                        tm.layout_position as ""layout_position"",
+                        tm.last_mod_date as ""last_mod_date"",
+                        tm.user_name as ""user_name"",  
+                        tm.text as ""text"",
+                        tm.additional_text as ""additional_text""
                  from testimonials as tm
                 where (section_name=@section_name)
             ";

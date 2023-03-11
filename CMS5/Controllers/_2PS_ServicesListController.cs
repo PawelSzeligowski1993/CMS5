@@ -26,11 +26,11 @@ namespace CMS5.Controllers
 
             string query = @"
                 select 
-                        serv_li.id as ""serv_li.id"",
-                        serv_li.text as ""serv_li.text"",
-                        serv_li.additional_text as ""serv_li.additional_text"",
-                        serv_li.baner_section_name as ""serv_li.baner_section_name"",
-                        serv_li.services_id as ""serv_li.services_id""
+                        serv_li.id as ""id"",
+                        serv_li.text as ""text"",
+                        serv_li.additional_text as ""additional_text"",
+                        serv_li.baner_section_name as ""baner_section_name"",
+                        serv_li.services_id as ""services_id""
                  from services_list as serv_li
             ";
 
@@ -63,11 +63,11 @@ namespace CMS5.Controllers
 
             string query = @"
                 select 
-                        serv_li.id as ""serv_li.id"",
-                        serv_li.text as ""serv_li.text"",
-                        serv_li.additional_text as ""serv_li.additional_text"",
-                        serv_li.baner_section_name as ""serv_li.baner_section_name"",
-                        serv_li.services_id as ""serv_li.services_id""
+                        serv_li.id as ""id"",
+                        serv_li.text as ""text"",
+                        serv_li.additional_text as ""additional_text"",
+                        serv_li.baner_section_name as ""baner_section_name"",
+                        serv_li.services_id as ""services_id""
                  from services_list as serv_li
                 where (baner_section_name=@baner_section_name)
             ";

@@ -26,12 +26,12 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        test_li.id as ""test_li.id"",
-                        test_li.rating as ""test_li.rating"",
-                        test_li.opinion as ""test_li.opinion"",
-                        test_li.author as ""test_li.author"",
-                        test_li.author_description as ""test_li.author_description"",
-                        test_li.testimonials_id as ""test_li.testimonials_id""
+                        test_li.id as ""id"",
+                        test_li.rating as ""rating"",
+                        test_li.opinion as ""opinion"",
+                        test_li.author as ""author"",
+                        test_li.author_description as ""author_description"",
+                        test_li.testimonials_id as ""testimonials_id""
                  from testimonials_list as test_li
             ";
 
@@ -64,12 +64,12 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        test_li.id as ""test_li.id"",
-                        test_li.rating as ""test_li.rating"",
-                        test_li.opinion as ""test_li.opinion"",
-                        test_li.author as ""test_li.author"",
-                        test_li.author_description as ""test_li.author_description"",
-                        test_li.testimonials_id as ""test_li.testimonials_id""
+                        test_li.id as ""id"",
+                        test_li.rating as ""rating"",
+                        test_li.opinion as ""opinion"",
+                        test_li.author as ""author"",
+                        test_li.author_description as ""author_description"",
+                        test_li.testimonials_id as ""testimonials_id""
                  from testimonials_list as test_li
                 where (author=@author)
             ";

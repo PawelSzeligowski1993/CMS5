@@ -69,7 +69,7 @@ namespace WebApplication1.Controllers.SectionsController
             //string name = "about_us";
             string query = @"
                 select 
-                        au.id as ""hb.id"",
+                        au.id as ""id"",
                         au.section_name as ""section_name"",
                         au.section_type as ""section_type"",
                         au.layout_position as ""layout_position"",

@@ -26,13 +26,13 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        serv.id as ""serv.id"",
-                        serv.section_name as ""serv.section_name"",
-                        serv.section_type as ""serv.section_type"",
-                        serv.layout_position as ""serv.layout_position"",
-                        serv.last_mod_date as ""serv.last_mod_date"",
-                        serv.user_name as ""serv.user_name"",  
-                        serv.text as ""serv.text""
+                        serv.id as ""id"",
+                        serv.section_name as ""section_name"",
+                        serv.section_type as ""section_type"",
+                        serv.layout_position as ""layout_position"",
+                        serv.last_mod_date as ""last_mod_date"",
+                        serv.user_name as ""user_name"",  
+                        serv.text as ""text""
                  from services as serv
             ";
 
@@ -65,13 +65,13 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        serv.id as ""serv.id"",
-                        serv.section_name as ""serv.section_name"",
-                        serv.section_type as ""serv.section_type"",
-                        serv.layout_position as ""serv.layout_position"",
-                        serv.last_mod_date as ""serv.last_mod_date"",
-                        serv.user_name as ""serv.user_name"",  
-                        serv.text as ""serv.text""
+                        serv.id as ""id"",
+                        serv.section_name as ""section_name"",
+                        serv.section_type as ""section_type"",
+                        serv.layout_position as ""layout_position"",
+                        serv.last_mod_date as ""last_mod_date"",
+                        serv.user_name as ""user_name"",  
+                        serv.text as ""text""
                  from services as serv
                 where (section_name=@section_name)
             ";

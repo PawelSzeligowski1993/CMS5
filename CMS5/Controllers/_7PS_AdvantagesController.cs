@@ -22,12 +22,12 @@ namespace CMS_Projekt_API.Controllers
         {
             string query = @"
                 select 
-                        a.id as ""a.id"",
-                        a.section_name as ""a.section_name"",
-                        a.section_type as ""a.section_type"",
-                        a.layout_position as ""a.layout_position"",
-                        a.last_mod_date as ""a.last_mod_date"",
-                        a.user_name as ""a.user_name""
+                        a.id as ""id"",
+                        a.section_name as ""section_name"",
+                        a.section_type as ""section_type"",
+                        a.layout_position as ""layout_position"",
+                        a.last_mod_date as ""last_mod_date"",
+                        a.user_name as ""user_name""
                  from advantages as a
             ";
 
@@ -60,12 +60,12 @@ namespace CMS_Projekt_API.Controllers
 
             string query = @"
                 select 
-                        a.id as ""a.id"",
-                        a.section_name as ""a.section_name"",
-                        a.section_type as ""a.section_type"",
-                        a.layout_position as ""a.layout_position"",
-                        a.last_mod_date as ""a.last_mod_date"",
-                        a.user_name as ""a.user_name""
+                        a.id as ""id"",
+                        a.section_name as ""section_name"",
+                        a.section_type as ""section_type"",
+                        a.layout_position as ""layout_position"",
+                        a.last_mod_date as ""last_mod_date"",
+                        a.user_name as ""user_name""
                  from advantages as a
                 where (section_name=@section_name)
             ";
