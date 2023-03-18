@@ -141,7 +141,7 @@ namespace CMS_Projekt_API.Controllers
                 insert into advantages_list
                 (id,text,additional_text,icon_url,advantages_id)
                 values 
-                (@id,@text,@additional_text,@icon_url,@advantages_id)
+                ((select max (id) from advantagesList) + 1,@text,@additional_text,@icon_url,@advantages_id)
             ";
 
             DataTable table = new DataTable();

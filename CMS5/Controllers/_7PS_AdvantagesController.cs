@@ -101,7 +101,7 @@ namespace CMS_Projekt_API.Controllers
                 insert into advantages
                 (id,section_name,section_type,layout_position,last_mod_date,user_name)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name)
+                ((select max (id) from advantages) + 1,@section_name,@section_type,@layout_position,@last_mod_date,@user_name)
             ";
 
             DataTable table = new DataTable();
@@ -112,14 +112,12 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", advantages.id);
+                    //myCommand.Parameters.AddWithValue("@id", advantages.id);
                     myCommand.Parameters.AddWithValue("@section_name", advantages.section_name);
                     myCommand.Parameters.AddWithValue("@section_type", advantages.section_type);
                     myCommand.Parameters.AddWithValue("@layout_position", advantages.layout_position);
                     myCommand.Parameters.AddWithValue("@last_mod_date", advantages.last_mod_date);
                     myCommand.Parameters.AddWithValue("@user_name", advantages.user_name);
-                    //myCommand.Parameters.AddWithValue("@advantages_list_id", advantages.advantages_list_id);
-
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -164,7 +162,6 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@layout_position", advantages.layout_position);
                     myCommand.Parameters.AddWithValue("@last_mod_date", advantages.last_mod_date);
                     myCommand.Parameters.AddWithValue("@user_name", advantages.user_name);
-                    //myCommand.Parameters.AddWithValue("@advantages_list_id", advantages.advantages_list_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

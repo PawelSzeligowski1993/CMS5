@@ -112,12 +112,11 @@ namespace WebApplication1.Controllers.SectionsController
         [HttpPost]
         public JsonResult PostNumbers(DB4_NumbersDTO numbers)
         {
-            int id = 0;
             string query = @"
                 insert into numbers
                 (id,section_name,section_type,layout_position,last_mod_date,user_name,text,value1,description1,value2,description2)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@value1,@description1,@value2,@description2)
+                ((select max (id) from numbers) + 1,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@value1,@description1,@value2,@description2)
             ";
 
             DataTable table = new DataTable();
@@ -128,7 +127,7 @@ namespace WebApplication1.Controllers.SectionsController
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", numbers.id);
+                    //myCommand.Parameters.AddWithValue("@id", numbers.id);
                     myCommand.Parameters.AddWithValue("@section_name", numbers.section_name);
                     myCommand.Parameters.AddWithValue("@section_type", numbers.section_type);
                     myCommand.Parameters.AddWithValue("@layout_position", numbers.layout_position);

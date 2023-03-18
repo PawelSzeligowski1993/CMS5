@@ -110,12 +110,11 @@ namespace WebApplication1.Controllers.SectionsController
         [HttpPost]
         public JsonResult about_us(DB3_AboutUsDTO about_us)
         {
-            int id = 0;
             string query = @"
                 insert into about_us
                 (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text,image1,image2,image3)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@image1,@image2,@image3)
+                ( (select max (id) from about_us) + 1,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@image1,@image2,@image3)  
             ";
 
             DataTable table = new DataTable();
@@ -126,7 +125,7 @@ namespace WebApplication1.Controllers.SectionsController
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", about_us.id);
+                    //myCommand.Parameters.AddWithValue("@id", about_us.id);
                     myCommand.Parameters.AddWithValue("@section_name", about_us.section_name);
                     myCommand.Parameters.AddWithValue("@section_type", about_us.section_type);
                     myCommand.Parameters.AddWithValue("@layout_position", about_us.layout_position);
@@ -138,7 +137,7 @@ namespace WebApplication1.Controllers.SectionsController
                     myCommand.Parameters.AddWithValue("@image2", about_us.image2);
                     myCommand.Parameters.AddWithValue("@image3", about_us.image3);
 
-                    myReader = myCommand.ExecuteReader();
+                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
                     myReader.Close();

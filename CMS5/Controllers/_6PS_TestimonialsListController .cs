@@ -141,12 +141,11 @@ namespace CMS_Projekt_API.Controllers
         [HttpPost]
         public JsonResult PostTestimonialsList(DB6_TestimonialsListDTO testimonialsList)
         {
-            int id = 0;
             string query = @"
                 insert into testimonials_list
                 (id,rating,opinion,author,author_description,testimonials_id)
                 values 
-                (@id,@rating,@opinion,@author,@author_description,@testimonials_id)
+                ((select max (id) from testimonials_list) + 1,@rating,@opinion,@author,@author_description,@testimonials_id)
             ";
 
             DataTable table = new DataTable();
@@ -157,13 +156,12 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", testimonialsList.id);
+                    //myCommand.Parameters.AddWithValue("@id", testimonialsList.id);
                     myCommand.Parameters.AddWithValue("@rating", testimonialsList.rating);
                     myCommand.Parameters.AddWithValue("@opinion", testimonialsList.opinion);
                     myCommand.Parameters.AddWithValue("@author", testimonialsList.author);
                     myCommand.Parameters.AddWithValue("@author_description", testimonialsList.author_description);
                     myCommand.Parameters.AddWithValue("@testimonials_id", testimonialsList.testimonials_id);
-                    //myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
 
 
                     myReader = myCommand.ExecuteReader();

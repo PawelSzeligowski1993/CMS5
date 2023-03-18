@@ -99,12 +99,11 @@ namespace CMS5.Controllers
         [HttpPost]
         public JsonResult PostServices(DB2_ServicesListDTO services_list)
         {
-            int id = 0;
             string query = @"
                 insert into services_list
                 (id,text,additional_text,baner_section_name,services_id)
                 values 
-                (@id,@text,@additional_text,@baner_section_name,@services_id)
+                ((select max (id) from services_id) + 1,@text,@additional_text,@baner_section_name,@services_id)
             ";
 
             DataTable table = new DataTable();
@@ -115,13 +114,11 @@ namespace CMS5.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", services_list.id);
+                    //myCommand.Parameters.AddWithValue("@id", services_list.id);
                     myCommand.Parameters.AddWithValue("@text", services_list.text);
                     myCommand.Parameters.AddWithValue("@additional_text", services_list.additional_text);
                     myCommand.Parameters.AddWithValue("@baner_section_name", services_list.baner_section_name);
                     myCommand.Parameters.AddWithValue("@services_id", services_list.services_id);
-
-                    //myCommand.Parameters.AddWithValue("@services_list_id", services.services_list_id);
 
 
                     myReader = myCommand.ExecuteReader();

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using System.Data;
+using System.Linq;
 using System.Xml.Linq;
+using WebApplication1.Data;
 using WebApplication1.Models.DTO;
 
 namespace WebApplication1.Controllers.SectionsController
@@ -106,12 +108,11 @@ namespace WebApplication1.Controllers.SectionsController
         [HttpPost]
         public JsonResult hero_banners(DB1_HeroBannerDTO hero_banners)
         {
-            int id = 0;
             string query = @"
                 insert into hero_banners
                 (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text,background_image)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@background_image)
+                ((select max (id) from hero_banners) + 1,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@background_image)
             ";
 
             DataTable table = new DataTable();
@@ -122,7 +123,7 @@ namespace WebApplication1.Controllers.SectionsController
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", hero_banners.id);
+                    //myCommand.Parameters.AddWithValue("@id", hero_banners.id);
                     myCommand.Parameters.AddWithValue("@section_name", hero_banners.section_name);
                     myCommand.Parameters.AddWithValue("@section_type", hero_banners.section_type);
                     myCommand.Parameters.AddWithValue("@layout_position", hero_banners.layout_position);

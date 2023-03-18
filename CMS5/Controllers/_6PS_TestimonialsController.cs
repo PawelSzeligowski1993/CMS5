@@ -101,12 +101,11 @@ namespace CMS_Projekt_API.Controllers
         [HttpPost]
         public JsonResult PostTestimonials(DB6_TestimonialsDTO testimonials)
         {
-            int id = 0;
             string query = @"
                 insert into testimonials
                 (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text)
+                ((select max (id) from testimonials) + 1,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text)
             ";
 
             DataTable table = new DataTable();
@@ -117,7 +116,7 @@ namespace CMS_Projekt_API.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", testimonials.id);
+                    //myCommand.Parameters.AddWithValue("@id", testimonials.id);
                     myCommand.Parameters.AddWithValue("@section_name", testimonials.section_name);
                     myCommand.Parameters.AddWithValue("@section_type", testimonials.section_type);
                     myCommand.Parameters.AddWithValue("@layout_position", testimonials.layout_position);
@@ -125,8 +124,7 @@ namespace CMS_Projekt_API.Controllers
                     myCommand.Parameters.AddWithValue("@user_name", testimonials.user_name);
                     myCommand.Parameters.AddWithValue("@text", testimonials.text);
                     myCommand.Parameters.AddWithValue("@additional_text", testimonials.additional_text);
-                    //myCommand.Parameters.AddWithValue("@testimonials_list_id", testimonials.testimonials_list_id);
-
+                    
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

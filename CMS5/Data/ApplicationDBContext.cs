@@ -7,6 +7,8 @@ namespace WebApplication1.Data
 {
     public class ApplicationDBContext : DbContext
     {
+        
+
         public DbSet<DB1_HeroBannerDTO> hero_banners { get; set; }
         public DbSet<DB2_ServicesDTO> services { get; set; }
         public DbSet<DB2_ServicesListDTO> services_list { get; set; }
@@ -19,11 +21,11 @@ namespace WebApplication1.Data
         public DbSet<DB7_AdvantagesListDTO> advantages_list { get; set; }
 
 
-
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
 
         {
 
         }
+
     }
 }

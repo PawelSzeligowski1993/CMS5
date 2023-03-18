@@ -102,12 +102,11 @@ namespace CMS4.Controllers
         [HttpPost]
         public JsonResult PostWorkWithUs(DB5_WorkWithUsDTO work_with_us)
         {
-            int id = 0;
             string query = @"
                 insert into work_with_us
                 (id,section_name,section_type,layout_position,last_mod_date,user_name,text,additional_text,background_image)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@background_image)
+                ((select max (id) from work_with_us) + 1,@section_name,@section_type,@layout_position,@last_mod_date,@user_name,@text,@additional_text,@background_image)
             ";
 
             DataTable table = new DataTable();
@@ -118,7 +117,7 @@ namespace CMS4.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", work_with_us.id);
+                    //myCommand.Parameters.AddWithValue("@id", work_with_us.id);
                     myCommand.Parameters.AddWithValue("@section_name", work_with_us.section_name);
                     myCommand.Parameters.AddWithValue("@section_type", work_with_us.section_type);
                     myCommand.Parameters.AddWithValue("@layout_position", work_with_us.layout_position);
